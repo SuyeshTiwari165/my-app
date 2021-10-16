@@ -19,7 +19,7 @@ const Logo = ({
       className={classes}
     >
       <h1 className="m-0">
-        <Link to="/">
+        <Link to="/my-app/">
           <Image
             src={require('./../../../assets/images/hemplogo.png')}
             alt="Open"
