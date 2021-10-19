@@ -31,10 +31,11 @@ const Header = ({
 }) => {
 
   const [isActive, setIsactive] = useState(false);
-
   const nav = useRef(null);
   const hamburger = useRef(null);
-
+  const [authenticated, setAuthenticated] = useState(JSON.parse(localStorage.getItem('Authenticated')))
+  const [Patient, setPatient] = useState(JSON.parse(localStorage.getItem('Patient')))
+  const [Doctor, setDoctor] = useState(JSON.parse(localStorage.getItem('Doctor')))
   useEffect(() => {
     isActive && openMenu();
     document.addEventListener('keydown', keyPress);
@@ -45,7 +46,7 @@ const Header = ({
       closeMenu();
     };
   });  
-
+  
   const openMenu = () => {
     document.body.classList.add('off-nav-is-active');
     nav.current.style.maxHeight = nav.current.scrollHeight + 'px';
@@ -150,7 +151,29 @@ const Header = ({
                     <li>
                       <Link to="/my-app/" onClick={closeMenu}>Hemp Market</Link>
                     </li>
+                </ul>
+                {Doctor ?
+                  <ul className={
+                    classNames(
+                      'list-reset text-xs',
+                      navPosition && `header-nav-${navPosition}`
+                    )}>
+                    <li>
+                      <Link to="/my-app/patients" onClick={closeMenu}>Patients</Link>
+                    </li>
                   </ul>
+                  : null}
+                {Patient ?
+                  <ul className={
+                    classNames(
+                      'list-reset text-xs',
+                      navPosition && `header-nav-${navPosition}`
+                    )}>
+                    <li>
+                      <Link to="/my-app/doctors" onClick={closeMenu}>Doctors</Link>
+                    </li>
+                  </ul>
+                :null}
                   {!hideSignin &&
                     <ul
                       className="list-reset header-nav-right"
@@ -159,14 +182,16 @@ const Header = ({
                         <Link to="/my-app/signup" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
                       </li>
                     </ul>
-                    }
-                     <ul
-                     className="list-reset header-nav-right"
-                   >
-                     <li>
-                       <Link to="/my-app/profile" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Profile</Link>
-                     </li>
-                   </ul>
+                }
+                {authenticated ?
+                  <ul
+                    className="list-reset header-nav-right"
+                  >
+                    <li>
+                      <Link to="/my-app/profile" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Profile</Link>
+                    </li>
+                  </ul> : null
+                }
                 </div>
               </nav>
             </>}

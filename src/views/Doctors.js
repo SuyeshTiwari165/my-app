@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { SectionTilesProps } from '../utils/SectionProps';
 import Paper from '@mui/material/Paper';
 import SectionHeader from '../components/sections/partials/SectionHeader';
-const Patients = ({
+const Doctors = ({
     className,
     topOuterDivider,
     bottomOuterDivider,
@@ -37,10 +37,10 @@ const Patients = ({
         bottomDivider && 'has-bottom-divider'
       );
     const column = [
-        { title: "Paitent Name", field: "name" },
+        { title: " Doctor Name", field: "name" },
         // { title: "Email", field: "email" },
-        { title: "Target Name", field: "targetName" },
-        { title: "Last Target Generated on", field: "lastReportGenerated" },
+        { title: "Speciality", field: "targetName" },
+        // { title: "Last Target Generated on", field: "lastReportGenerated" },
         // { title: "Phone", field: "phone" },
         // { title: "Created on", field: "createdOn" }
       ];
@@ -48,7 +48,7 @@ const Patients = ({
 				console.log("dssdsd")
 		}
     const sectionHeader = {
-        title: 'List of all the Patients.',
+        title: 'List of all the Doctors.',
     };
     return (
         <section
@@ -95,4 +95,4 @@ const Patients = ({
     )
 }
 
-export default Patients
+export default Doctors

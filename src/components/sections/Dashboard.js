@@ -58,9 +58,6 @@ const Dashboard = ({
       className={outerClasses}
     >
       <div className="container-sm">
-      <div style={{ 
-          backgroundImage: require("./../../assets/images/img1.webp")
-        }}>
         <div className={innerClasses}>
        
           <div className="hero-content">
@@ -82,7 +79,6 @@ const Dashboard = ({
               width={896}
               height={504} />
           </div>
-        </div>
       </div>
     </section>
   );
