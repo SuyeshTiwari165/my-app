@@ -140,7 +140,7 @@ const Header = ({
                       navPosition && `header-nav-${navPosition}`
                     )}>
                     <li>
-                      <Link to="#0" onClick={closeMenu}>Gov Info</Link>
+                      <Link to="/my-app/government-info/" onClick={closeMenu}>Gov Info</Link>
                     </li>
                   </ul>
                   <ul className={
@@ -149,7 +149,7 @@ const Header = ({
                       navPosition && `header-nav-${navPosition}`
                     )}>
                     <li>
-                      <Link to="/my-app/" onClick={closeMenu}>Hemp Market</Link>
+                      <Link to="/my-app/market" onClick={closeMenu}>Hemp Market</Link>
                     </li>
                 </ul>
                 {Doctor ?
@@ -174,14 +174,14 @@ const Header = ({
                     </li>
                   </ul>
                 :null}
-                  {!hideSignin &&
+                  {!authenticated ? !hideSignin &&
                     <ul
                       className="list-reset header-nav-right"
                     >
                       <li>
                         <Link to="/my-app/signup" className="button button-primary button-wide-mobile button-sm" onClick={closeMenu}>Sign up</Link>
                       </li>
-                    </ul>
+                    </ul>: null
                 }
                 {authenticated ?
                   <ul

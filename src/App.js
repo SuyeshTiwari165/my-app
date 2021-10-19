@@ -14,6 +14,8 @@ import Signup from './views/Signup';
 import Patients from './views/Patients';
 import Doctors from './views/Doctors';
 import UserProfile from './views/Userprofile';
+import GovernmentInfo from './views/GovernmentInfo';
+import Market from './views/Market';
 // Initialize Google Analytics
 ReactGA.initialize(process.env.REACT_APP_GA_CODE);
 
@@ -46,7 +48,9 @@ const App = () => {
           <AppRoute exact path="/my-app/signin" component={Signup} layout={LayoutDefault}/>
           <AppRoute exact path="/my-app/patients" component={Patients} layout={LayoutDefault} />
           <AppRoute exact path="/my-app/doctors" component={Doctors} layout={LayoutDefault}/>
-          <AppRoute exact path="/my-app/profile" component={UserProfile} layout={LayoutDefault}/>
+          <AppRoute exact path="/my-app/profile" component={UserProfile} layout={LayoutDefault} />
+          <AppRoute exact path="/my-app/government-info" component={GovernmentInfo} layout={LayoutDefault} />
+          <AppRoute exact path="/my-app/market" component={Market} layout={LayoutDefault}/>
         </Switch>
       )} />
   );

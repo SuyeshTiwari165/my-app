@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import classNames from 'classnames';
 import Image from '../components/elements/Image';
 import { Typography } from '@mui/material';
@@ -19,7 +19,9 @@ const Userprofile = ({
   imageFill,
   alignTop,
   ...props }) => {
+    
   let history = useHistory();
+  const [file, setFile] = useState('')
   const outerClasses = classNames(
     'hero section center-content',
     topOuterDivider && 'has-top-divider',
@@ -46,24 +48,30 @@ const Userprofile = ({
     title: 'My Profile',
   };
 
+  const handleFileUpload = (event) => {
+    console.log("event.", event.target.value)
+    setFile(event.target.value)
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('Authenticated');
-    localStorage.clear(); 
+    localStorage.clear();
     history.push('/my-app/');
-  }
+  };
     return (
         <section
         {...props}
         className={outerClasses}
       >
-        
+      <div className="container">
+        {/* <div style={{float:'right'}}> */}
           <Button
           onClick={handleLogout}
           >
             Logout<LogoutIcon></LogoutIcon>
           </Button>
-
-        <div className="container">
+        {/* </div> */}
+        
         <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
           <div className={splitClasses}>
@@ -76,7 +84,17 @@ const Userprofile = ({
                   <p className="m-0">Email Address: priyamishra@testmail.com</p>
                   <p className="m-0"> Mobile Number : +91 8457215400 </p>
                   <p className="m-0"> Date of Birth : 10/09/1997</p>
-                  <input className="m-0" type="file" id="myfile" name="myfile" label="My Reports"/>
+                  <br></br>
+                  <div>
+                    <label className="button button-primary button-wide-mobile button-sm" >
+                      <input onChange={ handleFileUpload }type="file"style={{display: 'none'}}/>
+                      Upload Reports
+                    </label>
+                  </div>
+                  <br></br>
+                  {``}{file}
+
+                  
                 </div>
                 
                 <div className={
