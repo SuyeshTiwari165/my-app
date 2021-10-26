@@ -62,7 +62,8 @@ const Signup = ({
     if (firstName === "Patient") {
       localStorage.setItem('Patient', true)
     }
-    history.push('/my-app/')
+    window.location.replace('/my-app/')
+    // history.push('/my-app/')
   };
 
   const handleSignin = () => {

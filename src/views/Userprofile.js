@@ -56,7 +56,8 @@ const Userprofile = ({
   const handleLogout = () => {
     localStorage.removeItem('Authenticated');
     localStorage.clear();
-    history.push('/my-app/');
+    // history.push('/my-app/');
+    window.location.replace('/my-app/')
   };
     return (
         <section
