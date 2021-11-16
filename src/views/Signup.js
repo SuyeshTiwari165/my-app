@@ -6,6 +6,8 @@ import Input from '../components/elements/Input';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import { useHistory } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { USER_LOGIN } from "../graphql/mutations/Auth";
 
 const Signup = ({
     className,
@@ -20,9 +22,12 @@ const Signup = ({
   let history = useHistory();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [dateofBirth, setdateofBirth] = useState(new Date())
+  const [mobileNumber, setMobileNumber] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [SignIn, setSignIn] = useState(false);
+  const [userAuthentication] = useMutation(USER_LOGIN);
   const outerClasses = classNames(
     'hero section center-content',
     topOuterDivider && 'has-top-divider',
@@ -42,6 +47,12 @@ const Signup = ({
     if (data.currentTarget.id === "firstName") {
       setFirstName(data.currentTarget.value)
     }
+    if (data.currentTarget.id === "mobileNumber") {
+      setMobileNumber(data.currentTarget.value)
+    }
+    if (data.currentTarget.id === "date") {
+      setdateofBirth(data.currentTarget.value)
+    }
     if (data.currentTarget.id === "lastName") {
       setLastName(data.currentTarget.value)
     }
@@ -53,23 +64,39 @@ const Signup = ({
     }
   };
 
-  const handleSubmit = (submitdata) => {
-    console.log("submitData", submitdata)
-    localStorage.setItem('Authenticated', true)
-    if (firstName === "Doctor") {
-      localStorage.setItem('Doctor', true)
-    }
-    if (firstName === "Patient") {
-      localStorage.setItem('Patient', true)
-    }
-    window.location.replace('/my-app/')
-    // history.push('/my-app/')
+  const handleSubmit = (type) => {
+
+    //  try {
+    //   if (type === 'signUp') {
+      
+    //   }
+    // } catch (error) {
+    //   console.log("error",error)
+    // }
+    console.log("type",type)
+    // try {
+       
+    //     userAuthentication({
+    //     variables: {
+    //       'identifier': emailAddress,
+    //       'password': password
+    //     }
+    // }).then((loginResponse) => {
+    //     localStorage.setItem('user_ID',loginResponse.data.login.user.id)
+    //     localStorage.setItem('user_role',loginResponse.data.login.user.role.name)
+    //     localStorage.setItem('user_session', loginResponse.data.login.jwt)
+    //     window.location.replace('/my-app/')
+    //   }).catch((error) => {
+        
+    //   })
+    
+    // } catch (error) {
+    //   console.log("error",error)
+    // };
+   
+  
   };
 
-  const handleSignin = () => {
-    setSignIn(true)
-  };
-  console.log("SignIn",SignIn)
     return (
       <section
         {...props}
@@ -104,10 +131,32 @@ const Signup = ({
                   </div>
                   <div className="mt-0 mb-16 " >
                     <TextField
+                      id="date"
+                      label="Birth Date"
+                      type="date"
+                      onChange={handleChange}
+                      defaultValue={dateofBirth}
+                      sx={{ width: 310 }}
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                    />
+                  </div>
+                  <div className="mt-0 mb-16 " >
+                    <TextField
                       value={emailAddress}
                       onChange={handleChange}
                       id="email"
                       label="Email address"
+                      variant="outlined"
+                    />
+                  </div>
+                  <div className="mt-0 mb-16 " >
+                    <TextField
+                      value={mobileNumber}
+                      onChange={handleChange}
+                      id="mobileNumber"
+                      label="Mobile Number"
                       variant="outlined"
                     />
                   </div>
@@ -119,9 +168,9 @@ const Signup = ({
                       variant="outlined"
                     />
                   </div>
-                  <Button type="submit" className="button button-primary button-wide-mobile button-sm" onClick={handleSubmit}>Sign Up</Button>
+                  <Button className="button button-primary button-wide-mobile button-sm" onClick={handleSubmit}>Sign Up</Button>
                   <p className="forgot-password text-right">
-                    Already registered <a onClick={handleSignin} style={{ 'color': "blue" }}>sign in?</a>
+                    Already registered <a onClick={() => setSignIn(true)} style={{ 'color': "blue" }}>sign in?</a>
                   </p>
                 </div>
               </Paper>
@@ -133,19 +182,22 @@ const Signup = ({
                     value={emailAddress}
                     onChange={handleChange}
                     id="email"
+                    type="email"
                     label="Email address"
                     variant="outlined"
                   />
                 </div>
                 <div className="mt-0 mb-16 " >
-                  <TextField value={password}
+                  <TextField
+                    value={password}
                     onChange={handleChange}
                     id="password"
+                    type="password"
                     label="Password"
                     variant="outlined"
                   />
                 </div>
-                <Button type="submit" className="button button-primary button-wide-mobile button-sm" onClick={handleSubmit}>Login</Button>
+                <Button className="button button-primary button-wide-mobile button-sm" onClick={handleSubmit}>Login</Button>
                 <p className="forgot-password text-right">
                   Don't have Account yet ? <a onClick={()=>setSignIn(false)} style={{ 'color': "blue" }}>Sign Up?</a>
                 </p>

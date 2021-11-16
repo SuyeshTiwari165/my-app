@@ -73,8 +73,16 @@ const Doctors = ({
                   ]}
                   options={{
                   headerStyle: {
-                      background: "linear-gradient(#fef9f5,#fef9f5)",
-                      whiteSpace: "nowrap",
+                    // background: "linear-gradient(#939496,#fef9f5)",
+                    whiteSpace: "nowrap",
+                    paddingLeft: "20px",
+                    borderRadius:'50px',
+                  },
+                  rowStyle: {
+                    // backgroundColor: '#EEE',
+                    // background: "linear-gradient(#fef9f5,#fef9f5)",
+                    whiteSpace: "wrap",
+                    paddingLeft: "50px"
                   },
 
                   thirdSortClick: false,

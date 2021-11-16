@@ -33,9 +33,9 @@ const Header = ({
   const [isActive, setIsactive] = useState(false);
   const nav = useRef(null);
   const hamburger = useRef(null);
-  const [authenticated, setAuthenticated] = useState(JSON.parse(localStorage.getItem('Authenticated')))
-  const [Patient, setPatient] = useState(JSON.parse(localStorage.getItem('Patient')))
-  const [Doctor, setDoctor] = useState(JSON.parse(localStorage.getItem('Doctor')))
+  const session = localStorage.getItem('user_session');
+  const [authenticated, setAuthenticated] = useState(session ? true : false);
+  const [role, setRole] = useState(localStorage.getItem('user_role'));
   useEffect(() => {
     isActive && openMenu();
     document.addEventListener('keydown', keyPress);
@@ -46,7 +46,7 @@ const Header = ({
       closeMenu();
     };
   });  
-  
+  console.log("role",role)
   const openMenu = () => {
     document.body.classList.add('off-nav-is-active');
     nav.current.style.maxHeight = nav.current.scrollHeight + 'px';
@@ -152,7 +152,7 @@ const Header = ({
                       <Link to="/my-app/market" onClick={closeMenu}>Hemp Market</Link>
                     </li>
                 </ul>
-                {Doctor ?
+                {role === 'Doctor' ?
                   <ul className={
                     classNames(
                       'list-reset text-xs',
@@ -163,7 +163,7 @@ const Header = ({
                     </li>
                   </ul>
                   : null}
-                {Patient ?
+                {role === 'Patient' ?
                   <ul className={
                     classNames(
                       'list-reset text-xs',

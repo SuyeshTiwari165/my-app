@@ -6,6 +6,9 @@ import SectionHeader from '../components/sections/partials/SectionHeader';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Button from '../components/elements/Button';
 import { useHistory } from 'react-router-dom';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { USER_DATA } from "../graphql/queries/Users";
+
 const Userprofile = ({
   className,
   topOuterDivider,
@@ -19,9 +22,11 @@ const Userprofile = ({
   imageFill,
   alignTop,
   ...props }) => {
-    
+  
+  let userID = localStorage.getItem('user_ID');
   let history = useHistory();
   const [file, setFile] = useState('')
+  const [userData, setUserData] = useState({});
   const outerClasses = classNames(
     'hero section center-content',
     topOuterDivider && 'has-top-divider',
@@ -47,6 +52,29 @@ const Userprofile = ({
   const sectionHeader = {
     title: 'My Profile',
   };
+ 
+  const [getUserData] = useLazyQuery(USER_DATA, {
+    fetchPolicy: "cache-and-network",
+    onCompleted: (userResponseData) => {
+      console.log("userResponseData", userResponseData)
+      setUserData(userResponseData.user)
+      // downloadUserImage()
+    },
+  });
+
+  // const downloadUserImage = () => {
+  //   fetch('http://localhost:1337/graphql' + userData.profilePicture.url.then((response) => {
+  //     console.log(response)
+  //   }))
+  // }
+
+  useEffect(() => {
+    getUserData({
+      variables: {
+        'id': userID
+      }
+    })
+  },[])
 
   const handleFileUpload = (event) => {
     console.log("event.", event.target.value)
@@ -54,37 +82,40 @@ const Userprofile = ({
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('Authenticated');
-    localStorage.clear();
+    localStorage.removeItem('user_session');
+    localStorage.removeItem('user_role');
+    // localStorage.clear();
     // history.push('/my-app/');
     window.location.replace('/my-app/')
   };
+
+  console.log("userData",userData)
     return (
         <section
         {...props}
         className={outerClasses}
       >
       <div className="container">
-        {/* <div style={{float:'right'}}> */}
-          <Button
-          onClick={handleLogout}
-          >
-            Logout<LogoutIcon></LogoutIcon>
-          </Button>
-        {/* </div> */}
-        
-        <div className={innerClasses}>
           <SectionHeader data={sectionHeader} className="center-content" />
+         <div>
+            <Button
+              onClick={handleLogout}
+            >
+              Logout<LogoutIcon></LogoutIcon>
+            </Button>
+          </div>
+        <div className={innerClasses}>
+        
           <div className={splitClasses}>
             
               <div className="split-item">
                 <div className="split-item-content center-content-mobile reveal-from-right" data-reveal-container=".split-item">
                   <h3 className="mt-0 mb-12">
-                    Name : Priya Mishra 
+                    Name : {userData.firstName + " " + userData.lastName}
                   </h3>
-                  <p className="m-0">Email Address: priyamishra@testmail.com</p>
-                  <p className="m-0"> Mobile Number : +91 8457215400 </p>
-                  <p className="m-0"> Date of Birth : 10/09/1997</p>
+                  <p className="m-0">Email Address: {userData.email}</p>
+                  <p className="m-0"> Mobile Number : {userData.mobilenumber} </p>
+                  <p className="m-0"> Date of Birth : {userData.dateofbirth} </p>
                   <br></br>
                   <div>
                     <label className="button button-primary button-wide-mobile button-sm" >
@@ -104,11 +135,13 @@ const Userprofile = ({
                     imageFill && 'split-item-image-fill'
                   )}
                   data-reveal-container=".split-item">
-                  <Image
-                    src={require('../assets/images/hemplogo.png')}
-                    alt="Features split 02"
-                    width={528}
-                    height={396} />
+                  {userData.profilePicture ?
+                    <Image
+                      src={'http://localhost:1337'+ userData.profilePicture.url}
+                      alt="Features split 02"
+                      width={528}
+                      height={396} />
+                    :null }
                 </div>
             </div>
             </div>
